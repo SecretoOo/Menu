@@ -3,19 +3,19 @@ package main
 import "fmt"
 
 func main() {
-	var cmd string
+	cmdList := initalCmdList()
 	for {
 		fmt.Print(">>")
-		fmt.Scan(&cmd)
-		switch cmd {
-		case "help":
-			fmt.Println("This is help cmd")
-		case "version":
-			fmt.Println("Menu v1.0")
-		case "quit":
-			return
-		default:
-			fmt.Println("Wrong Command !!!")
-		}
+		var cmdName string
+		fmt.Scan(&cmdName)
+		cmdList.exec(cmdName)
 	}
+}
+
+func initalCmdList() *CmdList {
+	cmdList := getCmdList()
+	cmdList.insert("help", "show manual", &Help{"help", cmdList}, true)
+	cmdList.insert("version", "show version", &Version{"Version"}, true)
+	cmdList.insert("quit", "quit this menu", &Quit{"Quit"}, true)
+	return cmdList
 }
